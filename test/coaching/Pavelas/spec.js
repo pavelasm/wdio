@@ -462,7 +462,7 @@ describe('Drop-down Challenge', () => {
     });
 });
 
-describe('', () => {
+describe('Hamburger Menu Challenge', () => {
     beforeEach(async () => {
         await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/hamburger-menu.html#')
         console.log('Link was opened')
