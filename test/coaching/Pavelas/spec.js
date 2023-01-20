@@ -206,3 +206,109 @@ describe('Button Challenge', () => {
         console.log(await successMessageSecond.getText())
     });
 });
+
+describe('Checkbox Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/check-box.html')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify that 1, 3, 5 checkboxes are checked by default! (0.2 pts)', async () => {
+        const firstDefaultCheckedCheckbox = await $('#checkbox1')
+        console.log(await firstDefaultCheckedCheckbox.getText())
+        await expect(firstDefaultCheckedCheckbox).toHaveAttribute('checked')
+
+        const thirdDefaultCheckedCheckbox = await $('[name="checkbox3"]')
+        console.log(await thirdDefaultCheckedCheckbox.getText())
+        await expect(thirdDefaultCheckedCheckbox).toHaveAttribute('checked')
+
+        const fifthDefaultCheckedCheckbox = await $('#ba')
+        console.log(await fifthDefaultCheckedCheckbox.getText())
+        await expect(fifthDefaultCheckedCheckbox).toHaveAttribute('checked')
+
+    });
+
+    it('2 - Verify that 2, 4 checkboxes are NOT checked by default! (0.2 pts)', async () => {
+        const secondCheckedCheckbox = await $('[name="checkbox2"]')
+        console.log(await secondCheckedCheckbox.getText())
+        await expect(secondCheckedCheckbox).not.toHaveAttribute('checked')
+
+        const fourthCheckedCheckbox = await $('//body/section/div[2]/div[2]/input[4]')
+        console.log(await fourthCheckedCheckbox.getText())
+        await expect(fourthCheckedCheckbox).not.toHaveAttribute('checked')
+
+    });
+
+    it('3 - Verify Error Message when NO checkbox is selected! (0.2 pts)', async () => {
+        const firstDefaultCheckedCheckbox = await $('#checkbox1')
+        console.log(await firstDefaultCheckedCheckbox.getText())
+        await expect(firstDefaultCheckedCheckbox).toHaveAttribute('checked')
+        await firstDefaultCheckedCheckbox.click()
+
+        const thirdDefaultCheckedCheckbox = await $('[name="checkbox3"]')
+        console.log(await thirdDefaultCheckedCheckbox.getText())
+        await expect(thirdDefaultCheckedCheckbox).toHaveAttribute('checked')
+        await thirdDefaultCheckedCheckbox.click()
+
+        const fifthDefaultCheckedCheckbox = await $('#ba')
+        console.log(await fifthDefaultCheckedCheckbox.getText())
+        await expect(fifthDefaultCheckedCheckbox).toHaveAttribute('checked')
+        await fifthDefaultCheckedCheckbox.click()
+
+        const confirmButton = await $('#confirm-btn')
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+        await expect(confMessage).toHaveTextContaining('No checkbox is selected!')
+    });
+
+    it('4 - Verify Error Message when checkbox combination is not correct! (0.2 pts)', async () => {
+        const confirmButton = await $('#confirm-btn')
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+        await expect(confMessage).toHaveTextContaining('The combination of selected profession(s) is NOT correct!')
+    });
+
+    it('5 - To solve a challenge select only checkboxes related to software testing roles + Confirm (0.2 pts)', async () => {
+        const confirmButton = await $('#confirm-btn')
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+        await expect(confMessage).toHaveTextContaining('The combination of selected profession(s) is NOT correct!')
+
+        const firstDefaultCheckedCheckbox = await $('#checkbox1')
+        console.log(await firstDefaultCheckedCheckbox.getText())
+        await expect(firstDefaultCheckedCheckbox).toHaveAttribute('checked')
+        await firstDefaultCheckedCheckbox.click()
+
+        const secondCheckedCheckbox = await $('[name="checkbox2"]')
+        console.log(await secondCheckedCheckbox.getText())
+        await secondCheckedCheckbox.click()
+
+        const fifthDefaultCheckedCheckbox = await $('#ba')
+        console.log(await fifthDefaultCheckedCheckbox.getText())
+        await expect(fifthDefaultCheckedCheckbox).toHaveAttribute('checked')
+        await fifthDefaultCheckedCheckbox.click()
+
+        const fourthCheckedCheckbox = await $('//body/section/div[2]/div[2]/input[4]')
+        console.log(await fourthCheckedCheckbox.getText())
+        await fourthCheckedCheckbox.click()
+
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        console.log(await successMessage.getText())
+
+        const successMessageSecond = await $('p=You have solved the challenge!')
+        console.log(await successMessageSecond.getText())
+
+    });
+});
