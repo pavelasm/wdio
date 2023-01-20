@@ -481,7 +481,7 @@ describe('Hamburger Menu Challenge', () => {
 
             const confMessage = await $('#conf-msg')
             await expect(confMessage).toHaveTextContaining('You have selected other section than VERIFY ME!')
-            await browser.debug()
+
         }
 
     });
@@ -492,6 +492,43 @@ describe('Hamburger Menu Challenge', () => {
 
         const homeLink = await $('#hamburger-menu-verify')
         await homeLink.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        const successMessageSecond = await $('p=You have solved the challenge!')
+
+        console.log(await successMessage.getText())
+        console.log(await successMessageSecond.getText())
+    });
+});
+
+describe('Slider Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/slider.html')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify Error Message when number is NOT 100. Use boundary values! (0.5 pts)', async () => {
+        const slider = await $('#slider')
+        await slider.dragAndDrop({ x: 170, y: 200 })
+
+        const verifyButton = await $('#slider-verify-btn')
+        await verifyButton.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('You have NOT reached 100 yet, try harder!🤪')
+
+        await slider.dragAndDrop({ x: -170, y: 200 })
+
+        await verifyButton.click()
+        await expect(confMessage).toHaveTextContaining('You have NOT reached 100 yet, try harder!🤪')
+
+    });
+    it('2 - To solve a challenge reach 100 and click Verify button! (0.5 pts)', async () => {
+        const slider = await $('#slider')
+        await slider.dragAndDrop({ x: 200, y: 200 })
+
+        const verifyButton = await $('#slider-verify-btn')
+        await verifyButton.click()
 
         const successMessage = await $('h1=Wohoo! 🥳')
         const successMessageSecond = await $('p=You have solved the challenge!')
