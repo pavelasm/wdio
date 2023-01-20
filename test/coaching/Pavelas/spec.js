@@ -158,3 +158,51 @@ describe('Number Box Challenge', () => {
         console.log(await successMessageSecond.getText())
     });
 });
+
+describe('Button Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/button.html')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify that Green button is disabled by default! (0.25 pts)', async () => {
+        const greenButton = await $('#simple-button-2=Green')
+        console.log(await greenButton.getText())
+
+        await expect(greenButton).toHaveAttribute('disabled')
+    });
+
+    it('2 - Verify that Red button is disabled by default! (0.25 pts)', async () => {
+        const redButton = await $('#simple-button-3=Red')
+        console.log(await redButton.getText())
+
+        await expect(redButton).toHaveAttribute('disabled')
+    });
+
+    it('3 - To solve a challenge light up Lithuanian flag by clicking on all buttons starting from Yellow! (0.5 pts)', async () => {
+        const yellowButton = await $('#simple-button-1=Yellow')
+        console.log(await yellowButton.getText())
+        await yellowButton.click()
+
+        const greenButton = await $('#simple-button-2=Green')
+        console.log(await greenButton.getText())
+        await expect(greenButton).not.toHaveAttribute('disabled')
+        await greenButton.click()
+
+
+        await (greenButton).getCSSProperty('background-color')
+        console.log(greenButton)
+        await expect(greenButton).toBeDisplayed('rgba(124, 177, 89, 1)')
+
+        const redButton = await $('#simple-button-3=Red')
+        console.log(await redButton.getText())
+        await expect(redButton).not.toHaveAttribute('disabled')
+        await redButton.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        console.log(await successMessage.getText())
+
+        const successMessageSecond = await $('p=You have solved the challenge!')
+        console.log(await successMessageSecond.getText())
+    });
+});
