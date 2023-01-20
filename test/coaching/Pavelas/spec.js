@@ -405,3 +405,59 @@ describe('Radio-button Challenge', () => {
         console.log(await successMessageSecond.getText())
     });
 });
+
+describe('Drop-down Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/drop-down.html')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify Error Message and Country when selected country is NOT Lithuania! (0.3 pts)', async () => {
+        const dropdownCountries = await $('[name="country"]')
+        dropdownCountries.selectByAttribute('value', 'Zimbabwe')
+        console.log(await dropdownCountries.getText())
+        await dropdownCountries.click()
+
+        const confirmButton = await $('#dropdown-verify-btn')
+        await confirmButton.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('Selected country is Zimbabwe, NOT Lithuania!')
+
+    });
+
+    it('2 - Verify Error Message with at least 3 countries (0.3 pts)', async () => {
+        countryName = ['Yemen', 'Solomon Islands', 'Portugal']
+
+        for (let i = 0; i < countryName.length; i++) {
+
+            const dropdownCountries = await $('[name="country"]')
+            dropdownCountries.selectByAttribute('value', countryName[i])
+            console.log(await dropdownCountries.getText())
+            await dropdownCountries.click()
+            const confirmButton = await $('#dropdown-verify-btn')
+            await confirmButton.click()
+
+            const confMessage = await $('#conf-msg')
+            await expect(confMessage).toHaveTextContaining(`Selected country is ${countryName[i]}, NOT Lithuania!`)
+
+        }
+
+    });
+
+    it('3 - To solve a challenge select the country Lithuania from drop down list and VERIFY it! (0.4 pts)', async () => {
+        const dropdownCountries = await $('[name="country"]')
+        dropdownCountries.selectByAttribute('value', 'Lithuania')
+        console.log(await dropdownCountries.getText())
+        await dropdownCountries.click()
+
+        const confirmButton = await $('#dropdown-verify-btn')
+        await confirmButton.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        const successMessageSecond = await $('p=You have solved the challenge!')
+
+        console.log(await successMessage.getText())
+        console.log(await successMessageSecond.getText())
+    });
+});
