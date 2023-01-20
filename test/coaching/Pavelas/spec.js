@@ -312,3 +312,96 @@ describe('Checkbox Challenge', () => {
 
     });
 });
+
+describe('Radio-button Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/radio-button.html')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify Error Message when NO option is selected! (0.2 pts)', async () => {
+        const confirmButton = await $('#confirm-radio-challenge')
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+        await expect(confMessage).toHaveTextContaining('No option is selected!')
+
+
+    });
+
+    it('2 - Select each role + Confirm & verify text in message "[Role] is selected!"(0.4 pts)', async () => {
+        const QaTestEngineerRole = await $('#profession-tester')
+        console.log(await QaTestEngineerRole.getText())
+        await QaTestEngineerRole.click()
+        const confirmButton = await $('#confirm-radio-challenge')
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+        await expect(confMessage).toHaveTextContaining('QA Test Engineer is selected!')
+
+        const softwareDeveloperRole = await $('#profession-developer')
+        console.log(await softwareDeveloperRole.getText())
+        await softwareDeveloperRole.click()
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+        console.log(await confMessage.getText())
+        await expect(confMessage).toHaveTextContaining('Software Developer is selected!')
+
+        const businessAnalystRole = await $('#profession-analyst')
+        console.log(await businessAnalystRole.getText())
+        await businessAnalystRole.click()
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+        console.log(await confMessage.getText())
+        //need to fix typo in the message "Analystic" on the front end
+        await expect(confMessage).toHaveTextContaining('Business Analystic is selected!')
+
+        browser.refresh()
+
+        const technicalWriterRole = await $('#profession-writer')
+        console.log(await technicalWriterRole.getText())
+        await technicalWriterRole.click()
+        console.log(await confirmButton.getText())
+        await confirmButton.click()
+        console.log(await confMessage.getText())
+        await expect(confMessage).toHaveTextContaining('Technical Writer is selected!')
+
+    });
+
+    it('3 - To solve a challenge Confirm all professions at least once! (0.4 pts)', async () => {
+        const QaTestEngineerRole = await $('#profession-tester')
+        const confirmButton = await $('#confirm-radio-challenge')
+        const confMessage = await $('#conf-msg')
+
+        await QaTestEngineerRole.click()
+        await confirmButton.click()
+        await expect(confMessage).toHaveTextContaining('QA Test Engineer is selected!')
+
+        const softwareDeveloperRole = await $('#profession-developer')
+
+        await softwareDeveloperRole.click()
+        await confirmButton.click()
+        await expect(confMessage).toHaveTextContaining('Software Developer is selected!')
+
+        const businessAnalystRole = await $('#profession-analyst')
+
+        await businessAnalystRole.click()
+        await confirmButton.click()
+        //need to fix typo in the message "Analystic" on the front end
+        await expect(confMessage).toHaveTextContaining('Business Analystic is selected!')
+
+        const technicalWriterRole = await $('#profession-writer')
+
+        await technicalWriterRole.click()
+        await confirmButton.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        const successMessageSecond = await $('p=You have solved the challenge!')
+
+        console.log(await successMessage.getText())
+        console.log(await successMessageSecond.getText())
+    });
+});
