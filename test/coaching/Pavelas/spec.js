@@ -461,3 +461,42 @@ describe('Drop-down Challenge', () => {
         console.log(await successMessageSecond.getText())
     });
 });
+
+describe('', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/hamburger-menu.html#')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify Error Message for all options except VERIFY ME (0.6 pts)', async () => {
+
+        const hamburgerMenuIcon = await $('[class="icon"]')
+        await hamburgerMenuIcon.click()
+
+        const selectorName = ['home', 'about', 'blog', 'contact'];
+        for (let i = 0; i < selectorName.length; i++) {
+
+            const homeLink = await $(`#hamburger-menu-${selectorName[i]}`)
+            await homeLink.click()
+
+            const confMessage = await $('#conf-msg')
+            await expect(confMessage).toHaveTextContaining('You have selected other section than VERIFY ME!')
+            await browser.debug()
+        }
+
+    });
+
+    it('2 - To solve a challenge, select the option VERIFY ME (0.4 pts)', async () => {
+        const hamburgerMenuIcon = await $('[class="icon"]')
+        await hamburgerMenuIcon.click()
+
+        const homeLink = await $('#hamburger-menu-verify')
+        await homeLink.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        const successMessageSecond = await $('p=You have solved the challenge!')
+
+        console.log(await successMessage.getText())
+        console.log(await successMessageSecond.getText())
+    });
+});
