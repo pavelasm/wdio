@@ -92,3 +92,69 @@ describe('Text Box Challenge', () => {
     });
 })
 
+describe('Number Box Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/input-number.html')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify Error Message when nothing is entered! (0.25 pts)', async () => {
+        const verifyButton = await $('#number-verify=VERIFY')
+        console.log(await verifyButton.getText())
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+
+        await verifyButton.click()
+        await expect(confMessage).toHaveTextContaining('No number is entered!')
+    });
+
+    it('2 - Verify Error Message when entered number is more than 100! (0.25 pts)', async () => {
+        const verifyButton = await $('#number-verify=VERIFY')
+        console.log(await verifyButton.getText())
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+
+        const numberBox = await $('#number-box')
+        console.log(await numberBox.getText())
+        await numberBox.addValue('101')
+
+        await verifyButton.click()
+        await expect(confMessage).toHaveTextContaining('Entered number is NOT in range of 0-100!')
+    });
+
+    it('3 - Verify Error Message when entered number is less than 0! (0.25 pts)', async () => {
+        const verifyButton = await $('#number-verify=VERIFY')
+        console.log(await verifyButton.getText())
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+
+        const numberBox = await $('#number-box')
+        console.log(await numberBox.getText())
+        await numberBox.addValue('-10')
+
+        await verifyButton.click()
+        await expect(confMessage).toHaveTextContaining('Entered number is NOT in range of 0-100!')
+    });
+
+    it('4 - To solve a challenge enter the number between 0 - 100 & click VERIFY! (0.25 pts)', async () => {
+        const verifyButton = await $('#number-verify=VERIFY')
+        console.log(await verifyButton.getText())
+
+        const confMessage = await $('#conf-msg')
+        console.log(await confMessage.getText())
+
+        const numberBox = await $('#number-box')
+        console.log(await numberBox.getText())
+        await numberBox.addValue('25')
+        await verifyButton.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        console.log(await successMessage.getText())
+
+        const successMessageSecond = await $('p=You have solved the challenge!')
+        console.log(await successMessageSecond.getText())
+    });
+});
