@@ -217,6 +217,16 @@ describe('Radio-button Challenge', () => {
         await selectorsRegister.successMessage.getText('Wohoo! 🥳')
         await selectorsRegister.successMessageSecond.getText('You have solved the challenge!')
     });
+
+    it('4 - Make a function with “for” cycle to: go through radio box elements, Click verify, Check the message with values from array', async () => {
+
+        const roles = [$('#profession-tester'), $('#profession-developer'), $('#profession-analyst')]
+        for (let i = 0; i < roles.length; i++) {
+            await roles[i].click();
+            await selectorsRegister.confirmRadioChallenge.click()
+            await expect(selectorsRegister.confMessage).toHaveTextContaining('is selected!')
+        }
+    });
 });
 
 describe('Drop-down Challenge', () => {
