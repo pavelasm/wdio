@@ -537,3 +537,77 @@ describe('Slider Challenge', () => {
         console.log(await successMessageSecond.getText())
     });
 });
+
+describe('Login Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/login.html')
+        console.log('Link was opened')
+    });
+
+    it('1 - Click Log in when nothing is entered. Verify the message! (0.2 pts)', async () => {
+        const homeLink = await $('#login-btn')
+        await homeLink.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('You have NOT filled Username field')
+
+    });
+
+    it('2 - Click Log in when Username is filled & Password is empty. Verify the message! (0.2 pts)', async () => {
+        const username = await $('#user-name')
+        await username.addValue('Pavelas')
+
+        const homeLink = await $('#login-btn')
+        await homeLink.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('Either password is incorrect or not filled!')
+
+    });
+
+    it('3 - Click Log in when Username is NOT filled & Password is filled. Verify the message! (0.2 pts)', async () => {
+
+        const password = await $('#password')
+        await password.addValue('abcd1234')
+
+        const homeLink = await $('#login-btn')
+        await homeLink.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('You have NOT filled Username field')
+
+    });
+
+    it('4 - Click Log in when Username is filled but Password is invalid. Verify the message! (0.2 pts)', async () => {
+        const username = await $('#user-name')
+        await username.addValue('Pavelas')
+
+        const password = await $('#password')
+        await password.addValue('abcd2254')
+
+        const homeLink = await $('#login-btn')
+        await homeLink.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('Either password is incorrect or not filled!')
+
+    });
+
+    it('5 - To solve a challenge click Log in when Username & Password are correctly filled! (0.2 pts)', async () => {
+        const username = await $('#user-name')
+        await username.addValue('Pavelas')
+
+        const password = await $('#password')
+        await password.addValue('abcd1234')
+
+        const homeLink = await $('#login-btn')
+        await homeLink.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        const successMessageSecond = await $('p=You have solved the challenge!')
+
+        console.log(await successMessage.getText())
+        console.log(await successMessageSecond.getText())
+
+    });
+});
