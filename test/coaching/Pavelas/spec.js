@@ -332,9 +332,9 @@ describe('Radio-button Challenge', () => {
     });
 
     it('2 - Select each role + Confirm & verify text in message "[Role] is selected!"(0.4 pts)', async () => {
-        const QaTestEngineerRole = await $('#profession-tester')
-        console.log(await QaTestEngineerRole.getText())
-        await QaTestEngineerRole.click()
+        const qaTestEngineerRole = await $('#profession-tester')
+        console.log(await qaTestEngineerRole.getText())
+        await qaTestEngineerRole.click()
         const confirmButton = await $('#confirm-radio-challenge')
         console.log(await confirmButton.getText())
         await confirmButton.click()
@@ -601,6 +601,97 @@ describe('Login Challenge', () => {
         await password.addValue('abcd1234')
 
         const homeLink = await $('#login-btn')
+        await homeLink.click()
+
+        const successMessage = await $('h1=Wohoo! 🥳')
+        const successMessageSecond = await $('p=You have solved the challenge!')
+
+        console.log(await successMessage.getText())
+        console.log(await successMessageSecond.getText())
+
+    });
+});
+
+describe('Simple Registration Form Challenge', () => {
+    beforeEach(async () => {
+        await browser.url('https://software-testers.gitlab.io/challenges/automation-challenges/simple-form.html#')
+        console.log('Link was opened')
+    });
+
+    it('1 - Verify Error Message when all required fields are not filled! (0.2 pts)', async () => {
+        const homeLink = await $('#submit-btn')
+        await homeLink.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('No value entered in First Name field!')
+
+    });
+
+    it('2 - Verify Error Message when one of the mandatory field is not filled! (0.2 pts)', async () => {
+        const firstName = await $('#first-name')
+        await firstName.addValue('Pavelas')
+
+        const lastName = await $('#last-name')
+        await lastName.addValue('Mois')
+
+        const email = await $('#email')
+        await email.addValue('pavelas@example.com')
+
+        const gender = await $('#sex-male')
+        console.log(await gender.getText())
+        await gender.click()
+
+        const homeLink = await $('#submit-btn')
+        await homeLink.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('No value entered in Mobile Phone field!')
+
+    });
+
+    it('3 - Verify Error Message when email has wrong format! (0.2 pts)', async () => {
+        const firstName = await $('#first-name')
+        await firstName.addValue('Pavelas')
+
+        const lastName = await $('#last-name')
+        await lastName.addValue('Mois')
+
+        const email = await $('#email')
+        await email.addValue('pavelasetexample.com')
+
+        const gender = await $('#sex-male')
+        console.log(await gender.getText())
+        await gender.click()
+
+        const homeLink = await $('#submit-btn')
+        await homeLink.click()
+
+        const confMessage = await $('#conf-msg')
+        await expect(confMessage).toHaveTextContaining('Email format is not valid!')
+
+    });
+
+    it('4 - To solve a challenge fill the registration form properly and SUBMIT!(0.4 pts)', async () => {
+        const firstName = await $('#first-name')
+        await firstName.addValue('Pavelas')
+
+        const lastName = await $('#last-name')
+        await lastName.addValue('Mois')
+
+        const email = await $('#email')
+        await email.addValue('pavelas@example.com')
+
+        const gender = await $('#sex-male')
+        console.log(await gender.getText())
+        await gender.click()
+
+        const mobileNumber = await $('#mobile-number')
+        await mobileNumber.addValue('68466666')
+
+        const termsCheckbox = await $('#terms-checkbox')
+        await termsCheckbox.click()
+
+        const homeLink = await $('#submit-btn')
         await homeLink.click()
 
         const successMessage = await $('h1=Wohoo! 🥳')
