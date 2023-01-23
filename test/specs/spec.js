@@ -1,10 +1,9 @@
-import openURL from '../actions/Coaching.actions.js'
-import selectorsRegister from '../page/Register.page.js'
+import selectorsRegister from '../page/Coaching.page'
 
 describe('Text Box Challenge', () => {
 
     beforeEach(async () => {
-        openURL.open('text-box')
+        await selectorsRegister.openApp('text-box')
     });
 
     it('1 - Verify Error Message when nothing is entered! (0.2 pts)', async () => {
@@ -17,7 +16,6 @@ describe('Text Box Challenge', () => {
         await selectorsRegister.firstName.addValue('a')
         await selectorsRegister.button.click()
         await expect(selectorsRegister.confMessage).toHaveTextContaining('Name has to have at least 2 letters!')
-
     });
 
     it('3 - Verify Error Message when non letters are entered! (0.2 pts)', async () => {
@@ -25,19 +23,13 @@ describe('Text Box Challenge', () => {
         await selectorsRegister.firstName.addValue('666')
         await selectorsRegister.button.click()
         await expect(selectorsRegister.confMessage).toHaveTextContaining('Name can only have letters!')
-
     });
 
     it('4 - Verify Error Message when more than 30 letters are entered! (0.2 pts)', async () => {
         await expect(selectorsRegister.firstName).toHaveValue(null)
-
-        let str = 'a'.repeat(31)
-        console.log(str)
-        await selectorsRegister.firstName.addValue(str)
-
+        await selectorsRegister.addSpecificLengthValue('a', 31)
         await selectorsRegister.button.click()
         await expect(selectorsRegister.confMessage).toHaveTextContaining('Name cannot have more than 30 letters!')
-
     });
 
     it('5 - To solve a challenge simply write your name and click VERIFY! (0.2 pts)', async () => {
@@ -52,7 +44,7 @@ describe('Text Box Challenge', () => {
 
 describe('Number Box Challenge', () => {
     beforeEach(async () => {
-        openURL.open('input-number')
+        await selectorsRegister.openApp('input-number')
     });
 
     it('1 - Verify Error Message when nothing is entered! (0.25 pts)', async () => {
@@ -82,7 +74,7 @@ describe('Number Box Challenge', () => {
 
 describe('Button Challenge', () => {
     beforeEach(async () => {
-        openURL.open('button')
+        await selectorsRegister.openApp('button')
     });
 
     it('1 - Verify that Green button is disabled by default! (0.25 pts)', async () => {
@@ -111,7 +103,7 @@ describe('Button Challenge', () => {
 
 describe('Checkbox Challenge', () => {
     beforeEach(async () => {
-        openURL.open('check-box')
+        await selectorsRegister.openApp('check-box')
     });
 
     it('1 - Verify that 1, 3, 5 checkboxes are checked by default! (0.2 pts)', async () => {
@@ -168,7 +160,7 @@ describe('Checkbox Challenge', () => {
 
 describe('Radio-button Challenge', () => {
     beforeEach(async () => {
-        openURL.open('radio-button')
+        await selectorsRegister.openApp('radio-button')
     });
 
     it('1 - Verify Error Message when NO option is selected! (0.2 pts)', async () => {
@@ -231,7 +223,7 @@ describe('Radio-button Challenge', () => {
 
 describe('Drop-down Challenge', () => {
     beforeEach(async () => {
-        openURL.open('drop-down')
+        await selectorsRegister.openApp('drop-down')
     });
 
     it('1 - Verify Error Message and Country when selected country is NOT Lithuania! (0.3 pts)', async () => {
@@ -262,17 +254,12 @@ describe('Drop-down Challenge', () => {
 
 describe('Hamburger Menu Challenge', () => {
     beforeEach(async () => {
-        openURL.open('hamburger-menu')
+        await selectorsRegister.openApp('hamburger-menu')
     });
 
     it('1 - Verify Error Message for all options except VERIFY ME (0.6 pts)', async () => {
         await selectorsRegister.hamburgerMenuIcon.click()
-        let selectorName = ['home', 'about', 'blog', 'contact'];
-        for (let i = 0; i < selectorName.length; i++) {
-            const homeLink = await $(`#hamburger-menu-${selectorName[i]}`)
-            await homeLink.click()
-            await expect(selectorsRegister.confMessage).toHaveTextContaining('You have selected other section than VERIFY ME!')
-        }
+        await selectorsRegister.verifyErrorMessageExceptVerifyMe('You have selected other section than VERIFY ME!')
     });
 
     it('2 - To solve a challenge, select the option VERIFY ME (0.4 pts)', async () => {
@@ -285,7 +272,7 @@ describe('Hamburger Menu Challenge', () => {
 
 describe('Slider Challenge', () => {
     beforeEach(async () => {
-        openURL.open('slider')
+        await selectorsRegister.openApp('slider')
     });
 
     it('1 - Verify Error Message when number is NOT 100. Use boundary values! (0.5 pts)', async () => {
@@ -307,7 +294,7 @@ describe('Slider Challenge', () => {
 
 describe('Login Challenge', () => {
     beforeEach(async () => {
-        openURL.open('login')
+        await selectorsRegister.openApp('login')
     });
 
     it('1 - Click Log in when nothing is entered. Verify the message! (0.2 pts)', async () => {
@@ -345,7 +332,7 @@ describe('Login Challenge', () => {
 
 describe('Simple Registration Form Challenge', () => {
     beforeEach(async () => {
-        openURL.open('simple-form')
+        await selectorsRegister.openApp('simple-form')
     });
 
     it('1 - Verify Error Message when all required fields are not filled! (0.2 pts)', async () => {
